@@ -1,0 +1,7 @@
+const TRACKING=new Set(["utm_source","utm_medium","utm_campaign","utm_term","utm_content","fbclid","gclid","srsltid"]);
+export function normalizeText(value:string){return value.normalize("NFKC").toLowerCase().replace(/[\s　]+/g,"").replace(/[‐‑‒–—―ー]/g,"-").trim()}
+export const normalizeProductName=normalizeText;
+export function normalizeUrl(value:string|null|undefined):string|null{if(!value)return null;try{const u=new URL(value);if(!["http:","https:"].includes(u.protocol))return null;u.hash="";[...u.searchParams.keys()].forEach(k=>TRACKING.has(k.toLowerCase())&&u.searchParams.delete(k));u.hostname=u.hostname.toLowerCase();u.pathname=u.pathname.replace(/\/$/,"")||"/";u.searchParams.sort();return u.toString()}catch{return null}}
+export function safeExternalUrl(value:string|null|undefined){return normalizeUrl(value)}
+export function createOfferKey(input:{retailerName:string;productName:string;applicationUrl?:string|null;detailsUrl?:string|null;storeName?:string|null;applicationStart?:string|null}){return [normalizeText(input.retailerName),normalizeProductName(input.productName),normalizeUrl(input.applicationUrl)||normalizeUrl(input.detailsUrl)||"no-url",normalizeText(input.storeName||"all"),input.applicationStart||"unknown"].join("|")}
+export function makeId(prefix:string,seed:string){let h=2166136261;for(const c of seed){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return `${prefix}_${(h>>>0).toString(36)}`}

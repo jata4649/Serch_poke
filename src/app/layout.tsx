@@ -1,0 +1,3 @@
+import type{Metadata,Viewport}from"next";import"./globals.css";import{Nav}from"@/components/Nav";import{ClientProviders}from"@/components/ClientProviders";
+export const metadata:Metadata={title:{default:"ポケ抽選メモ",template:"%s | ポケ抽選メモ"},description:"ポケモンカードゲーム抽選の応募と予定をローカルで管理する非公式アプリ",manifest:"/manifest.webmanifest"};export const viewport:Viewport={themeColor:"#2563eb",width:"device-width",initialScale:1};
+export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="ja"><body><ClientProviders><Nav/><div className="app-shell"><header className="mobile-header"><b>ポケ抽選メモ</b><span>非公式</span></header><main>{children}</main><footer>「ポケ抽選メモ」は株式会社ポケモン、任天堂、クリーチャーズ、ゲームフリークとは無関係の非公式サービスです。</footer></div></ClientProviders></body></html>}

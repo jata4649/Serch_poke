@@ -1,0 +1,1 @@
+import{Inbox}from"lucide-react";export function Empty({title="データがありません",children}:{title?:string;children?:React.ReactNode}){return <div className="empty"><Inbox/><strong>{title}</strong>{children}</div>}
